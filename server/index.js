@@ -1,42 +1,61 @@
 const zmq = require('zmq');
-const bitcoinJs = require('bitcoinjs-lib');
+// const bitcoinJs = require('bitcoinjs-lib');
 const dashcoreJs = require('@dashevo/dashcore-lib');
 
 const sock = zmq.socket('sub');
-
 
 sock.connect('tcp://127.0.0.1:29000');
 sock.subscribe('rawtx');
 
 
-const rawTxExample = '03000500010000000000000000000000000000000000000000000000000000000000000000ffffffff4c03c3320404fa515c5e08fabe6d6d000017fc658aef2c000017fc52a6424100000000000000000000234648b90a0801000000000000004fffebbc000000000d2f6e6f64655374726174756d2f000000000231fc433e000000001976a914cb594917ad4e5849688ec63f29a0f7f3badb5da688ac22fc433e000000001976a9142fd0e16c05bbbcdc388d4807b5cbe5f45389eb2d88ac00000000460200c3320400f1475363936f3b9cfb06c2152b044a8f9502bda6afe7d6ef1d9cb2373b8d09ed2cc8f04ccbd4f1bcb7080fdd896ed03c39c76b2d3b7701b57427eef1efe788a3';
-
-
-function getObjTx(rawTx){
-  var objTx = new dashcoreJs.Transaction(rawTx);
-  console.log('\n\n\n' + objTx.id + ':', objTx.toObject());
+function getRawTxHex(rawTxBin){
+  const rawTxHex = rawTxBin.toString('hex');
+  return rawTxHex;
 }
-var tx = new dashcoreJs.Transaction(rawTxExample);
-console.log('\n\n\n' + tx.id + ':', tx.toObject());
+
+function getTxObj(rawTxHex){
+  const txObj = new dashcoreJs.Transaction(rawTxHex).toObject();
+  return txObj;
+}
+
+function printTxObj(txObj) {
+  console.log('\n\n\n' + 'txObj :', txObj);
+}
+
+function pritRawTxHex(rawTxHex) {
+  console.log('\n\n\n' + 'rawTxHex :', rawTxHex);
+}
 
 sock.on('message', function(topic, message) {
   // console.log(i, topic.toString(), message.toString('hex'))
   if (topic.toString() === 'rawtx') {
-      var rawTx = message.toString('hex');
-      var objTx = new dashcoreJs.Transaction(rawTx);
-      console.log('\n\n\n' + objTx.id + ':', objTx.toObject());
+    const rawTxBin = message;
+
+    const rawTxHex = getRawTxHex(rawTxBin);
+    pritRawTxHex(JSON.stringify(rawTxHex));
+
+    const txObj = getTxObj(rawTxHex);
+    printTxObj(JSON.stringify(txObj));
   }
 })
 
 
+// var raw_script = Buffer.from('4730440220649ea8f12070186a4b4f8e109d3fd5b804aa0d858644ae19c86443db81d510c80220121da5bc6a1cf833a4e5bc36166697cc2908f687e485a7b8d32893250a78254f0121034fec45bcb69c80eadb62d4baa023663647ff946ed814bfc88c7a7441291cf21a', 'hex');
+// var s = new dashcoreJs.Script(raw_script);
+// console.log(s.getPublicKey());
+// 'OP_2 33 0x022df8750480ad5b26950b25c7ba79d3e37d75f640f8e5d9bcd5b150a0f85014da 33 0x03e3818b65bcc73a7d64064106a859cc1a5a728c4345ff0b641209fba0d90de6e9 33 0x021f2f6e1e50cb6a953935c3601284925decd3fd21bc445712576873fb8c6ebc18 OP_3 OP_CHECKMULTISIG'
+
+// s.isPublicKeyHashOut() // false
+// s.isScriptHashOut() // false
+// s.isMultisigOut() // true
 
 // sock.on('message', function(topic, message) {
 //   // console.log(i, topic.toString(), message.toString('hex'))
 //   if (topic.toString() === 'rawtx') {
-//       var rawTx = message.toString('hex');
-//       var tx = bitcoinJs.Transaction.fromHex(rawTx);
+//       let rawTx = message.toString('hex');
+//       let tx = bitcoinJs.Transaction.fromHex(rawTx);
 //       console.log('tx', tx);
-//       var txid = tx.getId();
+//       let txid = tx.getId();
 //       tx.ins = tx.ins.map((txIn)=>{
 //           txIn.address = bitcoinJs.address.fromOutputScript(txIn.script, bitcoinJs.networks.testnet);
 //           return txIn;
