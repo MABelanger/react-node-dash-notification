@@ -1,0 +1,25 @@
+{
+  "hash": "de7122239f92a51603dc9c556a852ded6f7d64f7583d5bac419e9dd26814e113",
+  "version": 3,
+  "inputs": [
+    {
+      "prevTxId": "0000000000000000000000000000000000000000000000000000000000000000",
+      "outputIndex": 4294967295,
+      "sequenceNumber": 0,
+      "script": "0368370404330e5f5e08fabe6d6d6d6dbefa0800000000ac88d476d9ea4596b7c902c813c6ceb117a3cbdd1c7114010000000000000007ffff05000000000d2f6e6f64655374726174756d2f"
+    }
+  ],
+  "outputs": [
+    {
+      "satoshis": 1044642865,
+      "script": "76a914cb594917ad4e5849688ec63f29a0f7f3badb5da688ac"
+    },
+    {
+      "satoshis": 1044642850,
+      "script": "76a9142fd0e16c05bbbcdc388d4807b5cbe5f45389eb2d88ac"
+    }
+  ],
+  "nLockTime": 0,
+  "type": 5,
+  "extraPayload": "020068370400d459f81b33d06a9436dbee146746f31564dad08e3c1f5468571f002ff084cafef0b70ca6929d1a175f7d69d38c282d4bdeac1db551ecd6a9493aa34b1aa6d35c"
+}
