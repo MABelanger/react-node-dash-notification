@@ -1,8 +1,21 @@
 const dashcoreJs = require('@dashevo/dashcore-lib');
 
-var rawScript = '76a91465d6359fe9777d77560e54cb9135f792073cd88388ac';
-var txOut = new dashcoreJs.Script(rawScript, 'hex');
-console.log(txOut.toAddress('testnet').toString());
+
+
+
+var rawTransactionHex = '0100000001b3260b80ff00720abd5f087e8498cb858200777338ea611159711714cb45efb3010000006a473044022076c8433685deac3396076a9f540cf9703480e7ba976564a0340bfb8acf0aa5dd022005080d63de528bcbec6cfbe86a6cc7c13ca8b707fdc0be90ef5a7a7e555935160121027ff789e190217f326906d1f26a81d6e4f55c9e33bff7e65264be134ba904286affffffff0200e1f505000000001976a914149968aa8086725f70d799c3852624b798da208088acdd5d2b19010000001976a914fd4a31786694a6f0a3c45023af95785811e28bae88ac00000000';
+var rawTransactionBuffer = Buffer.from('rawTransactionHex', 'hex');
+var a = new dashcoreJs.Script(rawTransactionBuffer);
+
+console.log(a);
+
+
+function getAddress(){
+  var rawScript = '76a91465d6359fe9777d77560e54cb9135f792073cd88388ac';
+  var txOut = new dashcoreJs.Script(rawScript, 'hex');
+  console.log(txOut.toAddress('testnet').toString());
+}
+
 
 
 //console.log(Buffer.from(buffHex, 'hex').toString())
