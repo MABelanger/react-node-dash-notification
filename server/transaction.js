@@ -27,8 +27,8 @@ function pritRawTxHex(rawTxHex) {
 }
 
 function getAddress(rawScript){
-  // var rawScript = '76a91465d6359fe9777d77560e54cb9135f792073cd88388ac';
-  var txOut = new dashcoreJs.Script(rawScript, 'hex');
+  // const rawScript = '76a91465d6359fe9777d77560e54cb9135f792073cd88388ac';
+  const txOut = new dashcoreJs.Script(rawScript, 'hex');
   return txOut.toAddress('testnet').toString();
   // console.log(txOut.toAddress('testnet').toString());
 }
@@ -37,11 +37,11 @@ function getAddress(rawScript){
 can we have two output tx with the same address in the same transaction ?
 */
 function getInfoOfAddress(rawTransactionHex, _address){
-  var transaction = new dashcoreJs.Transaction(rawTransactionHex);
-  var infoOfAddress = null;
+  const transaction = new dashcoreJs.Transaction(rawTransactionHex);
+  let infoOfAddress = null;
 
-  var outputFound = transaction.outputs.find((output)=>{
-    var address = getAddress(output.script);
+  const outputFound = transaction.outputs.find((output)=>{
+    const address = getAddress(output.script);
     return (address == _address);
   })
 
@@ -52,10 +52,10 @@ function getInfoOfAddress(rawTransactionHex, _address){
 }
 
 function getInputOutputs(rawTransactionHex){
-  var transaction = new dashcoreJs.Transaction(rawTransactionHex);
+  const transaction = new dashcoreJs.Transaction(rawTransactionHex);
 
-  var inputs=[];
-  var outputs=[];
+  let inputs=[];
+  let outputs=[];
 
   transaction.inputs.forEach((input)=>{
     inputs.push({
@@ -86,6 +86,7 @@ sock.on('message', function(topic, message) {
 
     const rawTxHex = getRawTxHex(rawTxBin);
     console.log(getInputOutputs(rawTxHex))
+    console.log('-------');
     // pritRawTxHex(JSON.stringify(rawTxHex));
     //
     // const txObj = getTxObj(rawTxHex);
@@ -100,11 +101,11 @@ sock.on('message', function(topic, message) {
 
 //console.log(Buffer.from(buffHex, 'hex').toString())
 
-// var raw_script = Buffer.from('483045022100ad31c224959c2b10ab310207f8a60d653606eb4a7b81fb9aea1919136e23e66102202c8e020f3bdfacf0cd069b22c3dc3711291cdc19f837919dc9c6b8c10eeb766e0121034f17f60f4a15c0511eeed575b861075172460e7af4eb38bb350f6ddd4f809c67', 'hex');
-// var a = new dashcoreJs.Script(raw_script);
+// const raw_script = Buffer.from('483045022100ad31c224959c2b10ab310207f8a60d653606eb4a7b81fb9aea1919136e23e66102202c8e020f3bdfacf0cd069b22c3dc3711291cdc19f837919dc9c6b8c10eeb766e0121034f17f60f4a15c0511eeed575b861075172460e7af4eb38bb350f6ddd4f809c67', 'hex');
+// const a = new dashcoreJs.Script(raw_script);
 // console.log(a.getPublicKey());
 
-// var s = new dashcoreJs.Script(raw_script);
+// const s = new dashcoreJs.Script(raw_script);
 // console.log(s.getPublicKeyHash());
 // 'OP_2 33 0x022df8750480ad5b26950b25c7ba79d3e37d75f640f8e5d9bcd5b150a0f85014da 33 0x03e3818b65bcc73a7d64064106a859cc1a5a728c4345ff0b641209fba0d90de6e9 33 0x021f2f6e1e50cb6a953935c3601284925decd3fd21bc445712576873fb8c6ebc18 OP_3 OP_CHECKMULTISIG'
 
