@@ -1,30 +1,11 @@
-const zmq = require('zmq');
-// const bitcoinJs = require('bitcoinjs-lib');
 const dashcoreJs = require('@dashevo/dashcore-lib');
 
-const sock = zmq.socket('sub');
-
-sock.connect('tcp://127.0.0.1:29000');
-sock.subscribe('rawtx');
 
 
-function getRawTxHex(rawTxBin){
-  const rawTxHex = rawTxBin.toString('hex');
-  return rawTxHex;
-}
 
-function getTxObj(rawTxHex){
-  const txObj = new dashcoreJs.Transaction(rawTxHex).toObject();
-  return txObj;
-}
-
-function printTxObj(txObj) {
-  console.log('\n\n\n' + 'txObj :', txObj);
-}
-
-function pritRawTxHex(rawTxHex) {
-  console.log('\n\n\n' + 'rawTxHex :', rawTxHex);
-}
+var rawTransactionHex = '0100000001b3260b80ff00720abd5f087e8498cb858200777338ea611159711714cb45efb3010000006a473044022076c8433685deac3396076a9f540cf9703480e7ba976564a0340bfb8acf0aa5dd022005080d63de528bcbec6cfbe86a6cc7c13ca8b707fdc0be90ef5a7a7e555935160121027ff789e190217f326906d1f26a81d6e4f55c9e33bff7e65264be134ba904286affffffff0200e1f505000000001976a914149968aa8086725f70d799c3852624b798da208088acdd5d2b19010000001976a914fd4a31786694a6f0a3c45023af95785811e28bae88ac00000000';
+// var rawTransactionBuffer = Buffer.from('rawTransactionHex', 'hex');
+var transaction = new dashcoreJs.Transaction(rawTransactionHex);
 
 function getAddress(rawScript){
   // var rawScript = '76a91465d6359fe9777d77560e54cb9135f792073cd88388ac';
@@ -78,23 +59,7 @@ function getInputOutputs(rawTransactionHex){
   }
 }
 
-
-sock.on('message', function(topic, message) {
-  // console.log(i, topic.toString(), message.toString('hex'))
-  if (topic.toString() === 'rawtx') {
-    const rawTxBin = message;
-
-    const rawTxHex = getRawTxHex(rawTxBin);
-    console.log(JSON.stringify(getInputOutputs(rawTxHex), null, 4))
-    // pritRawTxHex(JSON.stringify(rawTxHex));
-    //
-    // const txObj = getTxObj(rawTxHex);
-    // printTxObj(JSON.stringify(txObj));
-  }
-})
-
-
-
+console.log(getInputOutputs(rawTransactionHex))
 
 
 
