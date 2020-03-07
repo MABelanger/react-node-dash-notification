@@ -29,7 +29,6 @@ function getInfoOfAddress(_address){
     address: getAddress(outputFound.script),
     satoshis: outputFound.satoshis
   };
-
 }
 
 console.log(getInfoOfAddress('yNCN95DepW94qSoejpwcm9LU68twpXN9gB'))
