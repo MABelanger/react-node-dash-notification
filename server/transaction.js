@@ -85,7 +85,7 @@ sock.on('message', function(topic, message) {
     const rawTxBin = message;
 
     const rawTxHex = getRawTxHex(rawTxBin);
-    console.log(JSON.stringify(getInputOutputs(rawTxHex), null, 4))
+    console.log(getInputOutputs(rawTxHex))
     // pritRawTxHex(JSON.stringify(rawTxHex));
     //
     // const txObj = getTxObj(rawTxHex);
