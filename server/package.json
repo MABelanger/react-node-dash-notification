@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "use:v8": "nvm use v8.17.0",
+    "use:v8": "echo 'warning, you need to use node v8.17.0'",
     "start:dev": "./node_modules/nodemon/bin/nodemon.js index.js",
-    "start": "node index.js"
+    "start": "npm run use:v8 && npm run start:dev"
   },
   "requires": {},
   "author": "",
