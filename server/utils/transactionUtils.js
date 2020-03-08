@@ -1,7 +1,5 @@
 const dashcoreJs = require('@dashevo/dashcore-lib');
 
-let modules = {}
-
 function _getDash(satoshis){
   return (satoshis/100000000);
 }
