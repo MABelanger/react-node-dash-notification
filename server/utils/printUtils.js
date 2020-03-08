@@ -1,8 +1,8 @@
-export function printTxObj(txObj) {
+function printTxObj(txObj) {
   console.log('\n\n\n' + 'txObj :', txObj);
 }
 
-export function pritRawTxHex(rawTxHex) {
+function pritRawTxHex(rawTxHex) {
   console.log('\n\n\n' + 'rawTxHex :', rawTxHex);
 }
 

@@ -1,6 +1,7 @@
 const zmq = require('zmq');
 
 const transactionUtils = require('./utils/transactionUtils');
+const printUtils = require('./utils/printUtils');
 
 const sock = zmq.socket('sub');
 
@@ -12,7 +13,13 @@ sock.on('message', function(topic, message) {
     if (topic.toString() === 'rawtx') {
       console.log('topic.rawtx');
       const rawTxBin = message;
-      const inputOutputs = transactionUtils.getInputOutputs(rawTxBin)
+
+      // rawTxHex
+      const rawTxHex = transactionUtils.getRawTxHex(rawTxBin)
+      printUtils.pritRawTxHex(rawTxHex);
+
+      // inputOutputs
+      const inputOutputs = transactionUtils.getInputOutputs(rawTxBin);
       console.log(JSON.stringify(inputOutputs, null, 4));
     }
   } catch(error){
