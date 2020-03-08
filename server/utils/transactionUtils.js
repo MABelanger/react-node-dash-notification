@@ -76,6 +76,7 @@ function getInputOutputs(rawTransactionBin){
 
 module.exports = {
   getTxObj,
+  getRawTxHex,
   getInfoOfAddress,
   getInputOutputs
 };
