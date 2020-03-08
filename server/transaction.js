@@ -18,6 +18,10 @@ function getTxObj(rawTxHex){
   return txObj;
 }
 
+function getDash(satoshis){
+  return (satoshis/100000000);
+}
+
 function printTxObj(txObj) {
   console.log('\n\n\n' + 'txObj :', txObj);
 }
@@ -50,7 +54,7 @@ function getInfoOfAddress(rawTransactionHex, _address){
 
   return {
     address: getAddress(outputFound.script),
-    dash: (outputFound.satoshis/100000000)
+    dash: getDash(outputFound.satoshis)
   };
 }
 
@@ -74,7 +78,7 @@ function getInputOutputs(rawTransactionHex){
     if(output.script && output.satoshis){
       outputs.push({
         address: getAddress(output.script),
-        dash: (output.satoshis/100000000)
+        dash: getDash(output.satoshis)
       })
     }
   })
