@@ -50,7 +50,7 @@ function getInfoOfAddress(rawTransactionHex, _address){
 
   return {
     address: getAddress(outputFound.script),
-    satoshis: outputFound.satoshis
+    dash: (outputFound.satoshis/100000000)
   };
 }
 
@@ -65,7 +65,7 @@ function getInputOutputs(rawTransactionHex){
       inputs.push({
         address: getAddress(input.script),
         prevTxId: input.prevTxId.toString('hex')
-        // satoshis: input.satoshis
+        // dash: input.satoshis
       })
     }
   })
@@ -74,7 +74,7 @@ function getInputOutputs(rawTransactionHex){
     if(output.script && output.satoshis){
       outputs.push({
         address: getAddress(output.script),
-        satoshis: output.satoshis
+        dash: (output.satoshis/100000000)
       })
     }
   })
