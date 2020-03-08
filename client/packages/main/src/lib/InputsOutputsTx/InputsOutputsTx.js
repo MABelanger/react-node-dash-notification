@@ -20,7 +20,7 @@ export class InputsOutputsTx extends React.Component {
   }
 
   componentDidMount() {
-
+    this.listenThreadIo();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -36,6 +36,7 @@ export class InputsOutputsTx extends React.Component {
   listenThreadIo() {
     // listener for 'thread' event, which updates messages
     this.socket.on("thread", (message) => {
+      console.log('hello', message)
       this.setState(prevState => ({
         messages: [...prevState.messages, message]
       }));
@@ -47,12 +48,14 @@ export class InputsOutputsTx extends React.Component {
     this.socket.emit("message", message);
   }
 
-
   render() {
     return(
-      <div>
-        { this.state.messages }
-      </div>
+      <pre>
+
+        {this.state.messages.map((message)=>{
+          return JSON.stringify(message, null, 4);
+        })}
+      </pre>
     );
   }
 }

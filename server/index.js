@@ -55,12 +55,34 @@ sock.on('message', function(topic, message) {
       const inputOutputs = transactionUtils.getInputsOutputsObj(rawTxBin);
       console.log(JSON.stringify(inputOutputs, null, 4));
 
-      socketIoServer.sockets.emit('broadcast', inputOutputs);
+      socketIoServer.sockets.emit('thread', inputOutputs);
     }
   } catch(error){
     console.log(error)
   }
 })
+
+// setInterval(()=>{
+//   txObj = {
+//     inputs: [
+//         {
+//             address: "ygDRUDuy2Xbo62iQEorHWtJFKj6Tbd4cE9",
+//             prevTxId: "b686efc2d439a85c705f9f6fe13c2a609e8d892321240daeac95eabc03eb5c9b"
+//         }
+//     ],
+//     outputs: [
+//         {
+//             address: "yM4dNQ2qjzvaCyGwBchQWSkZgKbuKNEq4L",
+//             dash: 45.49549773
+//         },
+//         {
+//             address: "yLdtgiCu5YrmQMd5b2GMBBPvDFeBSWqHQ1",
+//             dash: 1
+//         }
+//     ]
+//   };
+//   socketIoServer.sockets.emit('thread', txObj);
+// }, 1000)
 
 server.listen(process.env.PORT);
 
