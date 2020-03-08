@@ -21,9 +21,6 @@ function getTxObj(rawTxHex){
   return txObj;
 }
 
-/*
-can we have two output tx with the same address in the same transaction ?
-*/
 function getInfoOfAddress(rawTransactionHex, _address){
   const transaction = new dashcoreJs.Transaction(rawTransactionHex);
   let infoOfAddress = null;
@@ -42,12 +39,9 @@ function getInfoOfAddress(rawTransactionHex, _address){
   };
 }
 
-function getInputOutputs(rawTransactionBin){
-  const rawTransactionHex = getRawTxHex(rawTransactionBin);
-  const transaction = new dashcoreJs.Transaction(rawTransactionHex);
 
-  let inputs=[];
-  let outputs=[];
+function _getInputs(transaction){
+  let inputs = [];
 
   transaction.inputs.forEach((input)=>{
     if(input.script && input.prevTxId){
@@ -57,7 +51,12 @@ function getInputOutputs(rawTransactionBin){
         // dash: input.satoshis
       })
     }
-  })
+  });
+  return inputs;
+}
+
+function _getOutputs(transaction){
+  let outputs = [];
 
   transaction.outputs.forEach((output)=>{
     if(output.script && output.satoshis){
@@ -66,7 +65,16 @@ function getInputOutputs(rawTransactionBin){
         dash: _getDash(output.satoshis)
       })
     }
-  })
+  });
+  return outputs;
+}
+
+function getInputsOutputsObj(rawTransactionBin){
+  const rawTransactionHex = getRawTxHex(rawTransactionBin);
+  const transaction = new dashcoreJs.Transaction(rawTransactionHex);
+
+  let inputs = _getInputs(transaction);
+  let outputs = _getOutputs(transaction);
 
   return {
     inputs,
@@ -78,5 +86,5 @@ module.exports = {
   getTxObj,
   getRawTxHex,
   getInfoOfAddress,
-  getInputOutputs
+  getInputsOutputsObj
 };

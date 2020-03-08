@@ -15,11 +15,11 @@ sock.on('message', function(topic, message) {
       const rawTxBin = message;
 
       // rawTxHex
-      const rawTxHex = transactionUtils.getRawTxHex(rawTxBin)
+      const rawTxHex = transactionUtils.getRawTxHex(rawTxBin);
       printUtils.pritRawTxHex(rawTxHex);
 
       // inputOutputs
-      const inputOutputs = transactionUtils.getInputOutputs(rawTxBin);
+      const inputOutputs = transactionUtils.getInputsOutputsObj(rawTxBin);
       console.log(JSON.stringify(inputOutputs, null, 4));
     }
   } catch(error){
