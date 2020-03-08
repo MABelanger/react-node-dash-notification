@@ -1,0 +1,1 @@
+export { InputsOutputsTx } from './InputsOutputsTx';

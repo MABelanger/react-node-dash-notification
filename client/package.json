@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npm start --prefix packages/main",
+		"build": "npm run build --prefix packages/main"
+  },
+  "devDependencies": {
+    "lerna": "2.9.1"
+  }
+}
