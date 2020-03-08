@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Chat from '@react-simple-chat/chat';
-
 import socketIOClient from "socket.io-client";
 
 
@@ -14,6 +12,10 @@ export class InputsOutputsTx extends React.Component {
 
     // connect to server
     this.socket = socketIOClient.connect();
+
+    this.state = {
+      messages : []
+    }
 
   }
 
@@ -49,13 +51,8 @@ export class InputsOutputsTx extends React.Component {
   render() {
     return(
       <div>
-        <Chat username={this.props.username}
-              messages={this.state.messages}
-              onSend={this.handleSend}
-        />
+        { this.state.messages }
       </div>
     );
   }
 }
-
-export default InputsOutputsTx;

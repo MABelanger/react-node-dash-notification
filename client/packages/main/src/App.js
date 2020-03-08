@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import InputsOutputsTx from './lib/InputsOutputsTx';
+import { InputsOutputsTx } from './lib/InputsOutputsTx';
 
 //  add bootstrap
 //  https://github.com/facebook/create-react-app/issues/301
