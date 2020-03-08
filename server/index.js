@@ -24,6 +24,7 @@ if(!(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "product
 
 
 socketIoServer.on("connection", function(client) {
+  // message from client...
   client.on("join", function(data) {
     console.log("join", data);
   });
@@ -31,7 +32,14 @@ socketIoServer.on("connection", function(client) {
   client.on("message", function(message) {
     console.log("message", message);
   });
+
+  // send messsage from server to client
+  // client.emit("thread", 'message');
+  // client.broadcast.emit("thread", 'hello');
+
+
 });
+
 
 sock.on('message', function(topic, message) {
   try {
@@ -46,6 +54,8 @@ sock.on('message', function(topic, message) {
       // inputOutputs
       const inputOutputs = transactionUtils.getInputsOutputsObj(rawTxBin);
       console.log(JSON.stringify(inputOutputs, null, 4));
+
+      socketIoServer.sockets.emit('broadcast', inputOutputs);
     }
   } catch(error){
     console.log(error)
