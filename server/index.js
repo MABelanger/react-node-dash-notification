@@ -1,4 +1,10 @@
 const zmq = require('zmq');
+const express = require("express");
+const app = express();
+const server = require("http").createServer(app);
+const socketIoServer = require("socket.io")(server);
+const dotenv = require('dotenv');
+const envUtils = require('./utils/envUtils');
 
 const transactionUtils = require('./utils/transactionUtils');
 const printUtils = require('./utils/printUtils');
@@ -7,6 +13,25 @@ const sock = zmq.socket('sub');
 
 sock.connect('tcp://127.0.0.1:29000');
 sock.subscribe('rawtx');
+
+
+// read .env file and add it to process.env
+dotenv.config();
+// use the default env if .env is not set.
+if(!(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production")) {
+  envUtils.overwriteEnv('.env.default.development')
+}
+
+
+socketIoServer.on("connection", function(client) {
+  client.on("join", function(data) {
+    console.log("join", data);
+  });
+
+  client.on("message", function(message) {
+    console.log("message", message);
+  });
+});
 
 sock.on('message', function(topic, message) {
   try {
@@ -26,3 +51,7 @@ sock.on('message', function(topic, message) {
     console.log(error)
   }
 })
+
+server.listen(process.env.PORT);
+
+console.log('server listen on *:' + process.env.PORT)
