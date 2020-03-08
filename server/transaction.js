@@ -41,8 +41,11 @@ function getInfoOfAddress(rawTransactionHex, _address){
   let infoOfAddress = null;
 
   const outputFound = transaction.outputs.find((output)=>{
-    const address = getAddress(output.script);
-    return (address == _address);
+    if(output.script){
+      const address = getAddress(output.script);
+      return (address == _address);
+    }
+    return false;
   })
 
   return {
@@ -58,18 +61,22 @@ function getInputOutputs(rawTransactionHex){
   let outputs=[];
 
   transaction.inputs.forEach((input)=>{
-    inputs.push({
-      address: getAddress(input.script),
-      prevTxId: input.prevTxId.toString('hex')
-      // satoshis: input.satoshis
-    })
+    if(input.script && input.prevTxId){
+      inputs.push({
+        address: getAddress(input.script),
+        prevTxId: input.prevTxId.toString('hex')
+        // satoshis: input.satoshis
+      })
+    }
   })
 
   transaction.outputs.forEach((output)=>{
-    outputs.push({
-      address: getAddress(output.script),
-      satoshis: output.satoshis
-    })
+    if(output.script && output.satoshis){
+      outputs.push({
+        address: getAddress(output.script),
+        satoshis: output.satoshis
+      })
+    }
   })
 
   return {
@@ -81,18 +88,39 @@ function getInputOutputs(rawTransactionHex){
 
 sock.on('message', function(topic, message) {
   // console.log(i, topic.toString(), message.toString('hex'))
-  if (topic.toString() === 'rawtx') {
-    const rawTxBin = message;
+  try {
+    if (topic.toString() === 'rawtx') {
+      console.log('topic.rawtx');
+      const rawTxBin = message;
 
-    const rawTxHex = getRawTxHex(rawTxBin);
-    console.log(getInputOutputs(rawTxHex))
-    console.log('-------');
-    // pritRawTxHex(JSON.stringify(rawTxHex));
-    //
-    // const txObj = getTxObj(rawTxHex);
-    // printTxObj(JSON.stringify(txObj));
+      const rawTxHex = getRawTxHex(rawTxBin);
+      // pritRawTxHex(JSON.stringify(rawTxHex));
+      //
+      // const txObj = getTxObj(rawTxHex);
+      // printTxObj(JSON.stringify(txObj));
+      const inputOutputs = getInputOutputs(rawTxHex)
+      console.log(JSON.stringify(inputOutputs, null, 4));
+    }
+  } catch(error){
+    console.log(error)
   }
+
 })
+
+// sock.on('message', function(topic, message) {
+//   // console.log(i, topic.toString(), message.toString('hex'))
+//   if (topic.toString() === 'rawtx') {
+//     const rawTxBin = message;
+//
+//     const rawTxHex = getRawTxHex(rawTxBin);
+//     console.log(getInputOutputs(rawTxHex))
+//     console.log('-------');
+//     // pritRawTxHex(JSON.stringify(rawTxHex));
+//     //
+//     // const txObj = getTxObj(rawTxHex);
+//     // printTxObj(JSON.stringify(txObj));
+//   }
+// })
 
 
 
