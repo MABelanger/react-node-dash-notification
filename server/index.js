@@ -104,6 +104,12 @@ socketLivenet.on('message', function(topic, transaction) {
 // }, 1000)
 
 
+app.use(express.static("public"));
+
+app.get("*", function(req, res, next) {
+  res.sendFile(__dirname + "/public/index.html");
+});
+
 server.listen(process.env.PORT);
 
 console.log('server listen on *:' + process.env.PORT)
