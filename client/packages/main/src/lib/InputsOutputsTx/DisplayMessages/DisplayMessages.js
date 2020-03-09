@@ -1,4 +1,5 @@
 import React, {useState, useRef, useEffect} from "react";
+import { Message } from './Message';
 
 export function DisplayMessages (props){
 
@@ -15,19 +16,21 @@ export function DisplayMessages (props){
     return null;
   }
 
+  function renderMessages(messages){
+    return (
+      messages.map((message, i)=>{
+        return (
+          <Message message={message}
+                    number={i}
+          />
+        )
+      })
+    );
+  }
+
   return(
     <>
-      {props.messages.map((message, i)=>{
-        return (
-          <>
-            <hr/>
-            <h4>tx number: {i}</h4>
-            <pre>
-              {JSON.stringify(message, null, 4)}
-            </pre>
-          </>
-        )
-      })}
+      {renderMessages(props.messages)}
       <div id={'bottomRef'} ref={bottomRef}></div>
     </>
   );
