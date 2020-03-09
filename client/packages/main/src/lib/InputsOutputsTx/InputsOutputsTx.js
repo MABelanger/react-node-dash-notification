@@ -1,61 +1,35 @@
-import React from 'react';
+import React, {useState, useRef, useEffect} from "react";
 
 import socketIOClient from "socket.io-client";
+import { DisplayMessages } from './DisplayMessages';
+import { useStateRef } from './hooks/stateRef';
 
+export function InputsOutputsTx (props){
 
-export class InputsOutputsTx extends React.Component {
-  constructor(props) {
-    super(props);
-    this.listenConnectIo = this.listenConnectIo.bind(this);
-    this.listenThreadIo = this.listenThreadIo.bind(this);
-    this.handleSend = this.handleSend.bind(this);
+  const [messages, setMessages, refMessage] = useStateRef([])
 
-    // connect to server
-    this.socket = socketIOClient.connect();
+  useEffect(()=>{
+    const socket = socketIOClient.connect();
+    listenThreadIo(socket);
+  },[])
 
-    this.state = {
-      messages : []
-    }
-
+  function pushMessage(message){
+    setMessages([
+      ...refMessage.current,
+      message
+    ]);
   }
 
-  componentDidMount() {
-    this.listenThreadIo();
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-
-  }
-
-  listenConnectIo() {
-    this.socket.on("connect", (data) => {
-      this.socket.emit("join", "Hello server from client");
-    });
-  }
-
-  listenThreadIo() {
+  function listenThreadIo(socket) {
     // listener for 'thread' event, which updates messages
-    this.socket.on("thread", (message) => {
-      console.log('hello', message)
-      this.setState(prevState => ({
-        messages: [...prevState.messages, message]
-      }));
-
+    socket.on("thread", (message) => {
+      console.log('thread', message);
+      pushMessage(message)
     });
   }
 
-  handleSend(message) {
-    this.socket.emit("message", message);
-  }
+  return(
+    <DisplayMessages messages={messages} />
+  );
 
-  render() {
-    return(
-      <pre>
-
-        {this.state.messages.map((message)=>{
-          return JSON.stringify(message, null, 4);
-        })}
-      </pre>
-    );
-  }
 }

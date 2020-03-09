@@ -23,6 +23,28 @@ if(!(process.env.NODE_ENV === "development" || process.env.NODE_ENV === "product
 }
 
 
+function fakeTransaction(){
+  txObj = {
+    inputs: [
+        {
+            address: "ygDRUDuy2Xbo62iQEorHWtJFKj6Tbd4cE9",
+            prevTxId: "b686efc2d439a85c705f9f6fe13c2a609e8d892321240daeac95eabc03eb5c9b"
+        }
+    ],
+    outputs: [
+        {
+            address: "yM4dNQ2qjzvaCyGwBchQWSkZgKbuKNEq4L",
+            dash: 45.49549773
+        },
+        {
+            address: "yLdtgiCu5YrmQMd5b2GMBBPvDFeBSWqHQ1",
+            dash: 1
+        }
+    ]
+  };
+  socketIoServer.sockets.emit('thread', txObj);
+}
+
 socketIoServer.on("connection", function(client) {
   // message from client...
   client.on("join", function(data) {
@@ -62,27 +84,10 @@ sock.on('message', function(topic, message) {
   }
 })
 
-// setInterval(()=>{
-//   txObj = {
-//     inputs: [
-//         {
-//             address: "ygDRUDuy2Xbo62iQEorHWtJFKj6Tbd4cE9",
-//             prevTxId: "b686efc2d439a85c705f9f6fe13c2a609e8d892321240daeac95eabc03eb5c9b"
-//         }
-//     ],
-//     outputs: [
-//         {
-//             address: "yM4dNQ2qjzvaCyGwBchQWSkZgKbuKNEq4L",
-//             dash: 45.49549773
-//         },
-//         {
-//             address: "yLdtgiCu5YrmQMd5b2GMBBPvDFeBSWqHQ1",
-//             dash: 1
-//         }
-//     ]
-//   };
-//   socketIoServer.sockets.emit('thread', txObj);
-// }, 1000)
+setInterval(()=>{
+  fakeTransaction();
+}, 1000)
+
 
 server.listen(process.env.PORT);
 
