@@ -14,6 +14,7 @@ class App extends Component {
         <Switch>
           <Route path="/" component={LiveTx} />
           <Route path="testnet/livetx" component={LiveTx} />
+          <Route path="livenet/livetx" component={LiveTx} />
         </Switch>
       </BrowserRouter>
     );

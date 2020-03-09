@@ -9,10 +9,14 @@ const envUtils = require('./utils/envUtils');
 const transactionUtils = require('./utils/transactionUtils');
 const printUtils = require('./utils/printUtils');
 
-const sock = zmq.socket('sub');
 
-sock.connect('tcp://127.0.0.1:29000');
-sock.subscribe('rawtx');
+const socketTestnet = zmq.socket('sub');
+socketTestnet.connect('tcp://127.0.0.1:29000');
+socketTestnet.subscribe('rawtx');
+
+const socketLivenet = zmq.socket('sub');
+socketLivenet.connect('tcp://127.0.0.1:19000');
+socketLivenet.subscribe('rawtx');
 
 
 // read .env file and add it to process.env
@@ -63,26 +67,37 @@ socketIoServer.on("connection", function(client) {
 });
 
 
-sock.on('message', function(topic, transaction) {
+function emitTransaction(transaction, network){
   try {
-    if (topic.toString() === 'rawtx') {
-      console.log('topic.rawtx');
-      const rawTxBin = transaction;
 
-      // rawTxHex
-      const rawTxHex = transactionUtils.getRawTxHex(rawTxBin);
-      printUtils.pritRawTxHex(rawTxHex);
+    const rawTxBin = transaction;
 
-      // inputOutputs
-      const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin);
-      console.log(JSON.stringify(inputOutputsObj, null, 2));
+    // rawTxHex
+    const rawTxHex = transactionUtils.getRawTxHex(rawTxBin);
+    printUtils.pritRawTxHex(rawTxHex);
 
-      socketIoServer.sockets.emit('transaction', inputOutputsObj);
-    }
+    // inputOutputs
+    const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin);
+    console.log(JSON.stringify(inputOutputsObj, null, 2));
+
+    socketIoServer.sockets.emit(`transaction-${network}`, inputOutputsObj);
+
   } catch(error){
     console.log(error)
   }
-})
+}
+
+socketTestnet.on('message', function(topic, transaction) {
+  if (topic.toString() === 'rawtx') {
+    emitTransaction(transaction, 'testnet');
+  }
+});
+
+socketLivenet.on('message', function(topic, transaction) {
+  if (topic.toString() === 'rawtx') {
+    emitTransaction(transaction, 'livenet');
+  }
+});
 
 // setInterval(()=>{
 //   fakeTransaction();

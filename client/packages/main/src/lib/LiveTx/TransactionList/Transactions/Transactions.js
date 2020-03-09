@@ -6,7 +6,8 @@ export function Transactions(props){
   return (
     props.transactions.map((transaction, i)=>{
       return (
-        <Transaction transaction={transaction}
+        <Transaction key={i}
+                     transaction={transaction}
                      number={i}
         />
       )
