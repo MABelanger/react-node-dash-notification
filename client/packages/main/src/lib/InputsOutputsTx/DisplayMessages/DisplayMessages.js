@@ -1,5 +1,6 @@
 import React, {useState, useRef, useEffect} from "react";
-import { Message } from './Message';
+
+import { Messages } from './Messages';
 
 export function DisplayMessages (props){
 
@@ -16,21 +17,9 @@ export function DisplayMessages (props){
     return null;
   }
 
-  function renderMessages(messages){
-    return (
-      messages.map((message, i)=>{
-        return (
-          <Message message={message}
-                    number={i}
-          />
-        )
-      })
-    );
-  }
-
   return(
     <>
-      {renderMessages(props.messages)}
+      <Messages messages={props.messages} />
       <div id={'bottomRef'} ref={bottomRef}></div>
     </>
   );
