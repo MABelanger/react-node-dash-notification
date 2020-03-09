@@ -1,35 +1,35 @@
 import React, {useState, useRef, useEffect} from "react";
 
 import socketIOClient from "socket.io-client";
-import { DisplayMessages } from './DisplayMessages';
+import { TransactionList } from './TransactionList';
 import { useStateRef } from './hooks/stateRef';
 
 export function InputsOutputsTx (props){
 
-  const [messages, setMessages, refMessage] = useStateRef([])
+  const [transactions, setTransactions, refTransaction] = useStateRef([])
 
   useEffect(()=>{
     const socket = socketIOClient.connect();
     listenThreadIo(socket);
   },[])
 
-  function pushMessage(message){
-    setMessages([
-      ...refMessage.current,
-      message
+  function pushTransaction(transaction){
+    setTransactions([
+      ...refTransaction.current,
+      transaction
     ]);
   }
 
   function listenThreadIo(socket) {
-    // listener for 'thread' event, which updates messages
-    socket.on("thread", (message) => {
-      console.log('thread', message);
-      pushMessage(message)
+    // listener for 'thread' event, which updates transactions
+    socket.on("thread", (transaction) => {
+      console.log('thread', transaction);
+      pushTransaction(transaction)
     });
   }
 
   return(
-    <DisplayMessages messages={messages} />
+    <TransactionList transactions={transactions} />
   );
 
 }

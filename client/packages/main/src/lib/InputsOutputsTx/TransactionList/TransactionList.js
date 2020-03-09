@@ -1,8 +1,8 @@
 import React, {useState, useRef, useEffect} from "react";
 
-import { Messages } from './Messages';
+import { Transactions } from './Transactions';
 
-export function DisplayMessages (props){
+export function TransactionList (props){
 
   const bottomRef = React.useRef(null);
 
@@ -13,13 +13,13 @@ export function DisplayMessages (props){
     }
   });
 
-  if(!props.messages){
+  if(!props.transactions){
     return null;
   }
 
   return(
     <>
-      <Messages messages={props.messages} />
+      <Transactions transactions={props.transactions} />
       <div id={'bottomRef'} ref={bottomRef}></div>
     </>
   );

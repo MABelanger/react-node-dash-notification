@@ -1,13 +1,13 @@
 import React from "react";
 
-export function Message(props){
+export function Transaction(props){
   return (
     <div key={props.number}>
       <hr/>
       <h4>tx number: {props.number}</h4>
       <pre>
         {
-          JSON.stringify(props.message, null, 4)
+          JSON.stringify(props.transaction, null, 4)
         }
       </pre>
     </div>
