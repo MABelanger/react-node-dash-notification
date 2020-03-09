@@ -63,7 +63,7 @@ socketIoServer.on("connection", function(client) {
 });
 
 
-sock.on('transaction', function(topic, transaction) {
+sock.on('message', function(topic, transaction) {
   try {
     if (topic.toString() === 'rawtx') {
       console.log('topic.rawtx');
@@ -75,7 +75,7 @@ sock.on('transaction', function(topic, transaction) {
 
       // inputOutputs
       const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin);
-      console.log(JSON.stringify(inputOutputsObj, null, 4));
+      console.log(JSON.stringify(inputOutputsObj, null, 2));
 
       socketIoServer.sockets.emit('transaction', inputOutputsObj);
     }

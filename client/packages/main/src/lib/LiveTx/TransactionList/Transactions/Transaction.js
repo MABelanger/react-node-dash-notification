@@ -7,7 +7,7 @@ export function Transaction(props){
       <h4>tx number: {props.number}</h4>
       <pre>
         {
-          JSON.stringify(props.transaction, null, 4)
+          JSON.stringify(props.transaction, null, 2)
         }
       </pre>
     </div>
