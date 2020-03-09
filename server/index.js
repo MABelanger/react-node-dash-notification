@@ -42,32 +42,32 @@ function fakeTransaction(){
         }
     ]
   };
-  socketIoServer.sockets.emit('thread', txObj);
+  socketIoServer.sockets.emit('transaction', txObj);
 }
 
 socketIoServer.on("connection", function(client) {
-  // message from client...
+  // transaction from client...
   client.on("join", function(data) {
     console.log("join", data);
   });
 
-  client.on("message", function(message) {
-    console.log("message", message);
+  client.on("transaction", function(transaction) {
+    console.log("transaction", transaction);
   });
 
   // send messsage from server to client
-  // client.emit("thread", 'message');
-  // client.broadcast.emit("thread", 'hello');
+  // client.emit("transaction", 'transaction');
+  // client.broadcast.emit("transaction", 'hello');
 
 
 });
 
 
-sock.on('message', function(topic, message) {
+sock.on('transaction', function(topic, transaction) {
   try {
     if (topic.toString() === 'rawtx') {
       console.log('topic.rawtx');
-      const rawTxBin = message;
+      const rawTxBin = transaction;
 
       // rawTxHex
       const rawTxHex = transactionUtils.getRawTxHex(rawTxBin);
@@ -77,7 +77,7 @@ sock.on('message', function(topic, message) {
       const inputOutputs = transactionUtils.getInputsOutputsObj(rawTxBin);
       console.log(JSON.stringify(inputOutputs, null, 4));
 
-      socketIoServer.sockets.emit('thread', inputOutputs);
+      socketIoServer.sockets.emit('transaction', inputOutputs);
     }
   } catch(error){
     console.log(error)

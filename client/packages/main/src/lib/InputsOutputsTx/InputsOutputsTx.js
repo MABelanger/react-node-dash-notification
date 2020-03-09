@@ -21,9 +21,9 @@ export function InputsOutputsTx (props){
   }
 
   function listenThreadIo(socket) {
-    // listener for 'thread' event, which updates transactions
-    socket.on("thread", (transaction) => {
-      console.log('thread', transaction);
+    // listener for 'transaction' event, which updates transactions
+    socket.on("transaction", (transaction) => {
+      console.log('transaction', transaction);
       pushTransaction(transaction)
     });
   }
