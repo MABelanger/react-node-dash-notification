@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import { InputsOutputsTx } from './lib/InputsOutputsTx';
+import { LiveTx } from './lib/LiveTx';
 
 //  add bootstrap
 //  https://github.com/facebook/create-react-app/issues/301
@@ -12,7 +12,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route path="/" component={InputsOutputsTx} />
+          <Route path="/" component={LiveTx} />
+          <Route path="/livetx" component={LiveTx} />
         </Switch>
       </BrowserRouter>
     );

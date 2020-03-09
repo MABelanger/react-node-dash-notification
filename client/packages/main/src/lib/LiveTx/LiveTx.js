@@ -4,7 +4,7 @@ import socketIOClient from "socket.io-client";
 import { TransactionList } from './TransactionList';
 import { useStateRef } from './hooks/stateRef';
 
-export function InputsOutputsTx (props){
+export function LiveTx (props){
 
   const [transactions, setTransactions, refTransaction] = useStateRef([])
 
@@ -29,7 +29,10 @@ export function InputsOutputsTx (props){
   }
 
   return(
-    <TransactionList transactions={transactions} />
+    <>
+      <h2 align="center">Live dash transaction</h2>
+      <TransactionList transactions={transactions} />
+    </>
   );
 
 }

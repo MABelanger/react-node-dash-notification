@@ -84,9 +84,9 @@ sock.on('transaction', function(topic, transaction) {
   }
 })
 
-setInterval(()=>{
-  fakeTransaction();
-}, 1000)
+// setInterval(()=>{
+//   fakeTransaction();
+// }, 1000)
 
 
 server.listen(process.env.PORT);
