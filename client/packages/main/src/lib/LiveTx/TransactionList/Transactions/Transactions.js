@@ -7,7 +7,7 @@ export function Transactions(props){
     props.transactions.map((transaction, i)=>{
       return (
         <Transaction transaction={transaction}
-                 number={i}
+                     number={i}
         />
       )
     })
