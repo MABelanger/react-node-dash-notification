@@ -74,10 +74,10 @@ sock.on('transaction', function(topic, transaction) {
       printUtils.pritRawTxHex(rawTxHex);
 
       // inputOutputs
-      const inputOutputs = transactionUtils.getInputsOutputsObj(rawTxBin);
-      console.log(JSON.stringify(inputOutputs, null, 4));
+      const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin);
+      console.log(JSON.stringify(inputOutputsObj, null, 4));
 
-      socketIoServer.sockets.emit('transaction', inputOutputs);
+      socketIoServer.sockets.emit('transaction', inputOutputsObj);
     }
   } catch(error){
     console.log(error)
