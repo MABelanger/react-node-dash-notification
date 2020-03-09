@@ -77,7 +77,7 @@ function emitTransaction(transaction, network){
     printUtils.pritRawTxHex(rawTxHex);
 
     // inputOutputs
-    const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin);
+    const inputOutputsObj = transactionUtils.getInputsOutputsObj(rawTxBin, network);
     console.log(JSON.stringify(inputOutputsObj, null, 2));
 
     socketIoServer.sockets.emit(`transaction-${network}`, inputOutputsObj);
